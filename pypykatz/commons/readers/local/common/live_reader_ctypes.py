@@ -74,7 +74,10 @@ def enum_process_names():
 		except Exception as e:
 			continue
 			
-		pid_to_name[pid] = QueryFullProcessImageNameW(process_handle)
+		try:
+			pid_to_name[pid] = QueryFullProcessImageNameW(process_handle)
+		except Exception:
+			continue
 	return pid_to_name
 	
 	

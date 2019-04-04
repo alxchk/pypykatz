@@ -308,7 +308,7 @@ def QueryFullProcessImageNameW(hProcess, dwFlags = 0):
 		success = _QueryFullProcessImageNameW(hProcess, dwFlags, lpExeName, byref(lpdwSize))
 		if success and 0 < lpdwSize.value < dwSize:
 			break
-		error = GetLastError()
+		error = ctypes.GetLastError()
 		if error != ERROR_INSUFFICIENT_BUFFER:
 			raise ctypes.WinError(error)
 		dwSize = dwSize + 256
@@ -349,7 +349,7 @@ def ReadProcessMemory(hProcess, lpBaseAddress, nSize):
 	lpBuffer			= ctypes.create_string_buffer(nSize)
 	lpNumberOfBytesRead = SIZE_T(0)
 	success = _ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, byref(lpNumberOfBytesRead))
-	if not success and GetLastError() != ERROR_PARTIAL_COPY:
+	if not success and ctypes.GetLastError() != ERROR_PARTIAL_COPY:
 		raise ctypes.WinError()
 	return lpBuffer.raw[:lpNumberOfBytesRead.value]
 
@@ -369,7 +369,7 @@ def WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer):
 	lpBuffer				= ctypes.create_string_buffer(lpBuffer)
 	lpNumberOfBytesWritten  = SIZE_T(0)
 	success = _WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, byref(lpNumberOfBytesWritten))
-	if not success and GetLastError() != ERROR_PARTIAL_COPY:
+	if not success and ctypes.GetLastError() != ERROR_PARTIAL_COPY:
 		raise ctypes.WinError()
 	return lpNumberOfBytesWritten.value
 	
