@@ -9,22 +9,10 @@ import datetime
 import struct
 from .readers.local.common.version import PROCESSOR_ARCHITECTURE
 
-# enum.auto() is only present for Python >= 3.6
-# This is a workaround found here:
-# https://codereview.stackexchange.com/questions/177309/reimplementing-pythons-enum-auto-for-compatibility
-try:
-	from enum import auto
-except ImportError: 
-	__my_enum_auto_id = 0
-	def auto():
-		global __my_enum_auto_id
-		i = __my_enum_auto_id
-		__my_enum_auto_id += 1
-		return i
 
 class KatzSystemArchitecture(enum.Enum):
-	X86 = auto()
-	X64 = auto()
+	X86 = 0
+	X64 = 1
 
 class GenericReader:
 	def __init__(self, data, processor_architecture = KatzSystemArchitecture.X64):

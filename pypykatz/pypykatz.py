@@ -11,11 +11,6 @@ from .lsadecryptor import *
 from .commons.readers.local.live_reader import LiveReader
 
 try:
-	from .commons.readers.rekall.rekallreader import RekallReader
-except ImportError:
-	RekallReader = None
-
-try:
 	from minikerberos.ccache import CCACHE
 except ImportError:
 	CCACHE = None
@@ -53,29 +48,7 @@ class pypykatz:
 		mimi = pypykatz(reader.get_buffered_reader(), sysinfo)
 		mimi.start()
 		return mimi
-
-	@staticmethod
-	def parse_memory_dump_rekall(filename, override_timestamp = None):
-		if not RekallReader:
-			return None
-
-		reader = RekallReader.from_memory_file(filename, override_timestamp)
-		sysinfo = KatzSystemInfo.from_rekallreader(reader)
-		mimi = pypykatz(reader, sysinfo)
-		mimi.start()
-		return mimi
-
-	@staticmethod
-	def go_rekall(session, override_timestamp = None, buildnumber = None):
-		if not RekallReader:
-			return None
-
-		reader = RekallReader.from_session(session, override_timestamp, buildnumber)
-		sysinfo = KatzSystemInfo.from_rekallreader(reader)
-		mimi = pypykatz(reader, sysinfo)
-		mimi.start()
-		return mimi
-		
+	
 	def log_basic_info(self):
 		"""
 		In case of error, please attach this to the issues page

@@ -15,9 +15,9 @@ import os
 import hashlib
 
 class KerberosTicketType(enum.Enum):
-	TGT = enum.auto()
-	TGS = enum.auto()
-	CLIENT = enum.auto() #?
+	TGT = 1
+	TGS = 2
+	CLIENT = 3
 	
 class KerberosSessionKey:
 	def __init__(self):
